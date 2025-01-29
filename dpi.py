@@ -144,7 +144,10 @@ def simplify_whole_graph(sfg):
     # List to store node pairs that need simplification
     simplify_pairs = []
 
-    target_pairs = [("Vvin", "Vvout")]
+    # target_pairs = [("Vvin", "Vvout")]
+
+    target_pairs = [("Vf", "Vc2")]
+
 
     # Dictionary to store transmittance for all paths
     path_transmittance = {}
@@ -165,7 +168,14 @@ def simplify_whole_graph(sfg):
         's': 1e3,  # Frequency-domain variable (e.g., for s=jω, substitute a frequency)
         'C3': 1e2,
         'R1': 1e2, 
-        'R2': 1e2
+        'R2': 1e2,
+        'R_O_Q1': 1000,
+        'G_Q2': 5,
+        'R': 30,
+        'Rc1': 1e2,
+        'R_O_Q2': 1e2, 
+        'G_Q1': 1e3,
+        'Rc2': 1e4        
     }
 
     largest_transmittance_list = []
@@ -174,6 +184,7 @@ def simplify_whole_graph(sfg):
         if nx.has_path(sfg, source, target):
             # Find all paths between the source and target
             paths = list(nx.all_simple_paths(sfg, source, target))
+            print("These are the paths: ", paths)
 
             # Initialize transmittance for this pair
             path_transmittance[(source, target)] = []
